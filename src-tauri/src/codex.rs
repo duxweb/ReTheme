@@ -4,7 +4,7 @@ use serde_json::{Value, json};
 use std::collections::HashMap;
 use std::fmt;
 use std::fs;
-use std::io::{Read, Write};
+use std::io::{self, Read, Write};
 use std::net::{IpAddr, Ipv4Addr, Shutdown, SocketAddr, TcpListener, TcpStream};
 use std::path::{Path, PathBuf};
 use std::process::Child;
@@ -36,6 +36,7 @@ const CODEX_BUNDLE_ID: &str = "com.openai.codex";
 const CODEX_PACKAGE_NAME: &str = "OpenAI.Codex";
 const STARTUP_TIMEOUT: Duration = Duration::from_secs(20);
 const THEME_CHANNEL_IO_TIMEOUT: Duration = Duration::from_secs(3);
+const THEME_CHANNEL_READ_POLL_INTERVAL: Duration = Duration::from_millis(250);
 const STATUS_PROBE_TIMEOUT: Duration = Duration::from_millis(250);
 const STATUS_PROBE_GRACE_PERIOD: Duration = Duration::from_secs(15);
 const PAGE_LEASE_DURATION: Duration = Duration::from_secs(15);
@@ -3980,11 +3981,15 @@ fn apply_theme(
         }})()"#
     );
 
-    let started = Instant::now();
+    let deadline = Instant::now() + STARTUP_TIMEOUT;
+    socket
+        .get_mut()
+        .set_read_timeout(Some(THEME_CHANNEL_READ_POLL_INTERVAL))
+        .map_err(|error| CodexError(format!("无法配置本地主题通道响应等待：{error}")))?;
     let mut command_id = 2;
     let mut last_slots = Vec::new();
     let slots = loop {
-        let value = evaluate_value(&mut socket, command_id, &expression)?;
+        let value = evaluate_value_until(&mut socket, command_id, &expression, deadline)?;
         if let Some(slots) = value.as_array() {
             let slots: Vec<String> = slots
                 .iter()
@@ -3996,7 +4001,7 @@ fn apply_theme(
                 break slots;
             }
         }
-        if started.elapsed() >= STARTUP_TIMEOUT {
+        if Instant::now() >= deadline {
             let missing = missing_startup_slots(&last_slots);
             return Err(CodexError(format!(
                 "等待 ChatGPT 主题界面就绪超时，缺少核心区域：{}",
@@ -4562,6 +4567,23 @@ fn evaluate_value<S>(
 where
     S: Read + Write,
 {
+    evaluate_value_until(
+        socket,
+        id,
+        expression,
+        Instant::now() + THEME_CHANNEL_IO_TIMEOUT,
+    )
+}
+
+fn evaluate_value_until<S>(
+    socket: &mut tungstenite::WebSocket<S>,
+    id: u64,
+    expression: &str,
+    deadline: Instant,
+) -> Result<Value, CodexError>
+where
+    S: Read + Write,
+{
     socket
         .send(Message::Text(
             json!({
@@ -4579,8 +4601,7 @@ where
         .map_err(|error| CodexError(format!("发送本地主题通道命令失败：{error}")))?;
 
     loop {
-        let message = socket
-            .read()
+        let message = read_theme_channel_message_until(socket, deadline)
             .map_err(|error| CodexError(format!("读取本地主题通道响应失败：{error}")))?;
         if !message.is_text() {
             continue;
@@ -4607,9 +4628,79 @@ where
     }
 }
 
+fn read_theme_channel_message_until<S>(
+    socket: &mut tungstenite::WebSocket<S>,
+    deadline: Instant,
+) -> Result<Message, tungstenite::Error>
+where
+    S: Read + Write,
+{
+    loop {
+        if Instant::now() >= deadline {
+            return Err(tungstenite::Error::Io(io::Error::new(
+                io::ErrorKind::TimedOut,
+                "等待本地主题通道响应超时",
+            )));
+        }
+        match socket.read() {
+            Ok(message) => return Ok(message),
+            Err(tungstenite::Error::Io(error))
+                if matches!(
+                    error.kind(),
+                    io::ErrorKind::WouldBlock
+                        | io::ErrorKind::TimedOut
+                        | io::ErrorKind::Interrupted
+                ) => {}
+            Err(error) => return Err(error),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn waits_for_theme_channel_response_across_temporary_read_timeouts() {
+        let listener = TcpListener::bind((Ipv4Addr::LOCALHOST, 0)).expect("test listener");
+        let address = listener.local_addr().expect("test listener address");
+        let server = thread::spawn(move || {
+            let (stream, _) = listener.accept().expect("test connection");
+            let mut socket = tungstenite::accept(stream).expect("test websocket handshake");
+            let request = socket.read().expect("runtime evaluate request");
+            let request: Value = serde_json::from_str(request.to_text().expect("text request"))
+                .expect("runtime evaluate json");
+            let id = request["id"].as_u64().expect("runtime evaluate id");
+            thread::sleep(Duration::from_millis(120));
+            socket
+                .send(Message::Text(
+                    json!({
+                        "id": id,
+                        "result": { "result": { "value": true } }
+                    })
+                    .to_string()
+                    .into(),
+                ))
+                .expect("runtime evaluate response");
+        });
+        let stream = TcpStream::connect(address).expect("test client connection");
+        stream
+            .set_read_timeout(Some(Duration::from_millis(40)))
+            .expect("test read timeout");
+        let url = format!("ws://{address}/devtools/page/test");
+        let (mut socket, _) = client(url, stream).expect("test websocket client");
+
+        let response = evaluate_value_until(
+            &mut socket,
+            7,
+            "true",
+            Instant::now() + Duration::from_millis(500),
+        )
+        .expect("response after temporary timeouts");
+
+        assert_eq!(response, Value::Bool(true));
+        server.join().expect("test server");
+    }
 
     #[cfg(target_os = "macos")]
     fn external_test_theme() -> PathBuf {
