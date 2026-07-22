@@ -1,0 +1,39 @@
+/* Light is the primary mode for Caishen Readable. Keep decisions in semantic tokens. */
+:root[data-ct-theme="channelerh.caishen-readable"] {
+  --cr-page-background: #fff6ea;
+  --cr-main-background: rgba(255, 249, 239, 0.86);
+  --cr-surface: rgba(255, 252, 247, 0.91);
+  --cr-surface-strong: rgba(255, 255, 255, 0.96);
+  --cr-sidebar-background: rgba(255, 250, 242, 0.92);
+  --cr-text: #24170f;
+  --cr-muted-text: #735f4d;
+  --cr-accent: #d96b42;
+  --cr-accent-strong: #b94e27;
+  --cr-accent-soft: rgba(217, 107, 66, 0.14);
+  --cr-gold: #d9a84a;
+  --cr-gold-soft: rgba(217, 168, 74, 0.16);
+  --cr-border: rgba(166, 112, 55, 0.23);
+  --cr-border-strong: rgba(185, 78, 39, 0.32);
+  --cr-shadow: rgba(120, 70, 25, 0.1);
+  --cr-radius: 16px;
+}
+
+/* Mirror ChatGPT's actual color scheme signal without changing the theme identity. */
+:root[data-ct-theme="channelerh.caishen-readable"][data-ct-color-scheme="dark"] {
+  --cr-page-background: #1f1712;
+  --cr-main-background: rgba(31, 23, 18, 0.88);
+  --cr-surface: rgba(45, 33, 25, 0.9);
+  --cr-surface-strong: rgba(57, 42, 31, 0.96);
+  --cr-sidebar-background: rgba(34, 26, 21, 0.94);
+  --cr-text: #fff3e4;
+  --cr-muted-text: #d7b99c;
+  --cr-accent: #f2a15f;
+  --cr-accent-strong: #ffc06f;
+  --cr-accent-soft: rgba(242, 161, 95, 0.16);
+  --cr-gold: #f0bf62;
+  --cr-gold-soft: rgba(240, 191, 98, 0.14);
+  --cr-border: rgba(240, 191, 98, 0.22);
+  --cr-border-strong: rgba(242, 161, 95, 0.34);
+  --cr-shadow: rgba(0, 0, 0, 0.28);
+}
+

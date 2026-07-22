@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "id": "channelerh.caishen-readable",
+  "name": "Caishen Readable",
+  "description": "A warm Caishen-inspired ReTheme source example that keeps ChatGPT and Codex surfaces readable.",
+  "version": "1.0.0",
+  "author": {
+    "id": "channelerh",
+    "name": "ChannelerH"
+  },
+  "styles": [
+    "styles/tokens.css",
+    "styles/overrides.css"
+  ],
+  "slots": [
+    "app.shell",
+    "app.background",
+    "sidebar",
+    "sidebar.header",
+    "sidebar.header.label",
+    "sidebar.item",
+    "sidebar.item.label",
+    "sidebar.item.active",
+    "sidebar.item.active.label",
+    "main",
+    "main.background",
+    "main.overlay",
+    "page.surface",
+    "menu",
+    "menu.item",
+    "menu.item.active",
+    "composer",
+    "composer.editor",
+    "composer.permission",
+    "composer.submit",
+    "home.hero",
+    "home.hero.copy",
+    "home.hero.eyebrow",
+    "home.hero.title",
+    "home.hero.description",
+    "home.prompt.title",
+    "home.card",
+    "home.card.label",
+    "conversation.banner",
+    "conversation.banner.copy",
+    "conversation.banner.eyebrow",
+    "conversation.banner.title",
+    "conversation.banner.description",
+    "conversation.user",
+    "conversation.assistant",
+    "code",
+    "code.inline",
+    "diff",
+    "terminal",
+    "terminal.viewport",
+    "settings.canvas",
+    "settings.card",
+    "settings.row.title",
+    "settings.row.description",
+    "settings.switch.track.checked"
+  ],
+  "permissions": [],
+  "preview": {
+    "background": "#fff6ea",
+    "surface": "#fffcf7",
+    "accent": "#d96b42"
+  },
+  "experience": {
+    "homeHero": {
+      "eyebrow": "CAISHEN READABLE",
+      "title": "Warm focus, clear work",
+      "description": "A bright fortune-inspired workspace that keeps text, prompts, and code easy to read.",
+      "asset": "assets/hero.jpg",
+      "fit": "cover",
+      "position": "right"
+    },
+    "homePrompt": {
+      "title": "What should we ship first?"
+    },
+    "conversationBanner": {
+      "eyebrow": "FORTUNE MODE",
+      "title": "Keep the signal clear",
+      "description": "Soft gold atmosphere around a plain readable conversation surface.",
+      "asset": "assets/hero.jpg",
+      "fit": "cover",
+      "position": "right"
+    },
+    "assets": [
+      {
+        "slot": "app.background",
+        "asset": "assets/hero.jpg"
+      },
+      {
+        "slot": "main.background",
+        "asset": "assets/hero.jpg"
+      }
+    ],
+    "decorations": []
+  },
+  "locales": {
+    "zh-CN": {
+      "name": "财神清爽可读",
+      "description": "一套保留财神氛围、同时让 ChatGPT 与 Codex 工作区保持清晰可读的 ReTheme 源码示例。",
+      "experience": {
+        "homeHero": {
+          "eyebrow": "财神清爽版",
+          "title": "财气护航，清爽开工",
+          "description": "把氛围留在背景里，把文字、提示词和代码留给清晰工作。"
+        },
+        "homePrompt": {
+          "title": "今天先把哪件事推进？"
+        },
+        "conversationBanner": {
+          "eyebrow": "专注发财",
+          "title": "氛围要有，文字要清楚",
+          "description": "浅金色背景包围干净的阅读区，避免图片压住内容。"
+        }
+      }
+    }
+  }
+}
+
