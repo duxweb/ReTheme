@@ -1,0 +1,135 @@
+/* App surfaces stay warm but readable; layout remains owned by ChatGPT/ReTheme. */
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="app.shell"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="main"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="settings.canvas"] {
+  background: var(--cr-page-background) !important;
+  color: var(--cr-text) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="main.background"] {
+  background: linear-gradient(90deg, var(--cr-main-background) 0%, var(--cr-main-background) 58%, rgba(255, 246, 234, 0.58) 100%) !important;
+  color: var(--cr-text) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="main.overlay"] {
+  background: linear-gradient(180deg, rgba(255, 252, 247, 0.54) 0%, rgba(255, 252, 247, 0.82) 72%) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="sidebar"] {
+  background: var(--cr-sidebar-background) !important;
+  border-right: 1px solid var(--cr-border) !important;
+  box-shadow: 10px 0 28px var(--cr-shadow) !important;
+  color: var(--cr-text) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="sidebar.header"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="sidebar.item"] {
+  color: var(--cr-muted-text) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="sidebar.header.label"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="sidebar.item.label"] {
+  color: inherit !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="sidebar.item.active"] {
+  background: var(--cr-accent-soft) !important;
+  border: 1px solid var(--cr-border-strong) !important;
+  color: var(--cr-accent-strong) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="sidebar.item.active.label"] {
+  color: var(--cr-accent-strong) !important;
+}
+
+/* Repeated work surfaces use almost-white panels so screenshots, code, and prose remain legible. */
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="page.surface"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="home.card"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="settings.card"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="menu"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="composer"] {
+  background: var(--cr-surface-strong) !important;
+  border: 1px solid var(--cr-border) !important;
+  border-radius: var(--cr-radius) !important;
+  box-shadow: 0 18px 44px var(--cr-shadow) !important;
+  color: var(--cr-text) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="home.card.label"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="home.prompt.title"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="settings.row.title"] {
+  color: var(--cr-text) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="settings.row.description"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="composer.permission"] {
+  color: var(--cr-muted-text) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="menu.item.active"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="composer.submit"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="settings.switch.track.checked"] {
+  background: var(--cr-accent) !important;
+  color: #ffffff !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="composer.editor"] {
+  color: var(--cr-text) !important;
+}
+
+/* Hero and conversation banners carry the theme mood while their copy stays on a readable veil. */
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="home.hero"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="conversation.banner"] {
+  border: 1px solid var(--cr-border) !important;
+  border-radius: calc(var(--cr-radius) + 4px) !important;
+  box-shadow: 0 24px 60px var(--cr-shadow) !important;
+  overflow: hidden !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="home.hero.copy"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="conversation.banner.copy"] {
+  background: rgba(255, 252, 247, 0.78) !important;
+  border: 1px solid rgba(255, 255, 255, 0.62) !important;
+  border-radius: var(--cr-radius) !important;
+  color: var(--cr-text) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="home.hero.eyebrow"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="conversation.banner.eyebrow"] {
+  color: var(--cr-accent-strong) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="home.hero.title"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="conversation.banner.title"] {
+  color: var(--cr-text) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="home.hero.description"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="conversation.banner.description"] {
+  color: var(--cr-muted-text) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="conversation.user"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="conversation.assistant"] {
+  color: var(--cr-text) !important;
+}
+
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="code"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="code.inline"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="diff"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="terminal"],
+:root[data-ct-theme="channelerh.caishen-readable"] [data-ct-slot="terminal.viewport"] {
+  background: rgba(35, 28, 23, 0.92) !important;
+  border-color: rgba(240, 191, 98, 0.28) !important;
+  color: #fff2df !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root[data-ct-theme="channelerh.caishen-readable"] *,
+  :root[data-ct-theme="channelerh.caishen-readable"] *::before,
+  :root[data-ct-theme="channelerh.caishen-readable"] *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
